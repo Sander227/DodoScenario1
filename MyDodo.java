@@ -118,9 +118,9 @@ public class MyDodo extends Dodo
      */
 
     public void walkToWorldEdgePrintingCoordinates( ){
-        for(int i = 0; i<12; i++){
+        for(int i = 0; i<15; i++){
             System.out.println();
-        } // can move voor
+        } 
         while( ! borderAhead() && canMove() ){
             System.out.println ( "X " +getX()+ " Y " +getY());
             move();
@@ -162,5 +162,34 @@ public class MyDodo extends Dodo
         move();
         turn180();
         return isGrain;
+    }
+    
+    public void goToEgg(){
+        boolean eggFound = false;
+        while (!eggFound){
+            if (onEgg()) {
+                eggFound = true;
+                break;
+            } else {
+                move();
+            }
+        }
+    }
+    
+    public void goBackToStartOfRowAndFaceBack(){
+        turn180();
+        while( ! borderAhead() && canMove() ){
+            move();
+        }
+        turn180();
+    }
+    
+    public void walkToWorldEdgeClimbingOverFences(){
+        while( ! borderAhead() ){
+            move();
+            if (fenceAhead()) {
+                climbOverFence();
+            }
+        }
     }
 }
