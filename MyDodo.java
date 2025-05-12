@@ -33,6 +33,7 @@ public class MyDodo extends Dodo
     }
 
     public void climbOverFence() {
+        boolean fence = false;
         if (fenceAhead()) {
             turnLeft();
             move();
@@ -40,9 +41,16 @@ public class MyDodo extends Dodo
             move();
             move();
             turnRight();
+            while(!fence){
+              if (fenceAhead()) {
+                turnLeft();
+                move();
+                turnRight();
+            }  else {
+                fence =true;
+            }
+            }
             move();
-            turnRight();
-            turnLeft();
             turnLeft();
         }
     }
@@ -158,9 +166,7 @@ public class MyDodo extends Dodo
         boolean grain = false;
         move();
         boolean isGrain = onGrain();
-        turn180();
-        move();
-        turn180();
+        stepOneCellBackwards();
         return isGrain;
     }
     
@@ -186,10 +192,44 @@ public class MyDodo extends Dodo
     
     public void walkToWorldEdgeClimbingOverFences(){
         while( ! borderAhead() ){
-            move();
             if (fenceAhead()) {
                 climbOverFence();
+            } else{
+                move();
+            } 
+        }
+    }
+    
+    public void pickUpGrainsAndPrintCoordinates(){
+        for(int i = 0; i<15; i++){
+            System.out.println();
+        } 
+        while (! borderAhead()) {
+            if (onGrain()){
+                pickUpGrain();
+                System.out.println ( "X " +getX()+ " Y " +getY());
+            }
+            move();
+            if (onGrain()){
+                pickUpGrain();
+                System.out.println ( "X " +getX()+ " Y " +getY());
             }
         }
     }
+    
+    public void stepOneCellBackwards() {
+        turn180();
+        move();
+        turn180();
+    }
+    
+    public void ifTheNestIsEmptyLayAnEgg(){
+        while (! borderAhead()) {
+            move();
+            if (onNest() && !onEgg()){
+            layEgg();
+        } 
+        }
+    }
+    
 }
