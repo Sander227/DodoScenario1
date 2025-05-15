@@ -301,4 +301,96 @@ public class MyDodo extends Dodo
             }
         }
     }
+    
+    public boolean fenceRight() {
+        boolean x;
+        turnRight();
+        x = fenceAhead();
+        turnLeft();
+        return x;
+    }
+    
+    public boolean fenceLeft() {
+        boolean x;
+        turnLeft();
+        x = fenceAhead();
+        turnRight();
+        return x;
+    }
+    
+    public void simpleMaze(){
+        while (!onNest()){
+            if (!fenceRight()){
+                turnRight();
+                move();
+            } else if (!fenceAhead()) {
+                move();
+            } else if (!fenceLeft()) {
+                turnLeft();
+                move();
+            } else {
+                turn180();
+            }
+        }
+    }
+    
+    public void faceNorth(){
+        while (getDirection() != NORTH) {
+            turnRight();
+        }
+    }
+    
+    public void faceEast(){
+        while (getDirection() != EAST) {
+            turnRight();
+        }
+    }
+    
+    public void faceSouth(){
+        while (getDirection() != SOUTH) {
+            turnRight();
+        }
+    }
+    
+    public void faceWest(){
+        while (getDirection() != WEST) {
+            turnRight();
+        }
+    }
+    
+    public void goToLocation(int coordX, int coordY){
+        if (validCoordinates(coordX, coordY)) {
+            while (!locationReached(coordX, coordY)) {
+                if (getX() < coordX) {
+                    faceEast();
+                    move();
+                } else if (getX() > coordX) {
+                    faceWest();
+                    move();
+                } if (getY() < coordY) {
+                    faceSouth();
+                    move();
+                } else if (getY() > coordY) {
+                    faceNorth();
+                    move();
+                }
+            }
+        }
+    }
+    
+    public boolean locationReached(int x, int y){
+        if (getX() == x && getY() == y) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean validCoordinates(int x, int y){
+        if (x > getWorld().getWidth()-1 || y > getWorld().getWidth()-1) {
+            showError ("invalid coordinates");
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
