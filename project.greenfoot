@@ -1,11 +1,11 @@
 #Greenfoot project file
-class.BlueEgg.image=blue-egg-new.png
-class.Fence.image=fence.png
-class.GoldenEgg.image=golden-egg-new.png
+class.BlueEgg.image=download_Copy.png
+class.Fence.image=sandstone60_Copy.jpg
+class.GoldenEgg.image=download_Copy_Copy.png
 class.Grain.image=grain.png
 class.Mauritius.image=sandstone60.jpg
-class.MyDodo.image=dodo-new-right.png
-class.Nest.image=nest.png
+class.MyDodo.image=download.png
+class.Nest.image=sandstone60_Copy01.jpg
 dependency1.from=Mauritius
 dependency1.to=Scoreboard
 dependency1.type=UsesDependency

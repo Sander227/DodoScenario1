@@ -374,6 +374,7 @@ public class MyDodo extends Dodo
                     faceNorth();
                     move();
                 }
+                faceEast();
             }
         }
     }
@@ -386,11 +387,26 @@ public class MyDodo extends Dodo
     }
     
     public boolean validCoordinates(int x, int y){
-        if (x > getWorld().getWidth()-1 || y > getWorld().getWidth()-1) {
-            showError ("invalid coordinates");
+        if (x > getWorld().getWidth()-1 || y > getWorld().getHeight()-1) {
+            showError ("Invalid coordinates");
             return false;
         } else {
             return true;
         }
     }
+    
+    public int countEggsInRow() {
+        int totalEggs = 0;
+        while (! borderAhead()) {
+            if (onEgg()) {
+                totalEggs++;
+            }
+            move();
+        }
+        if (onEgg()) {
+                totalEggs++;
+            }
+        goBackToStartOfRowAndFaceBack();
+        return totalEggs;
+    } 
 }
