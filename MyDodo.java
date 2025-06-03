@@ -440,4 +440,31 @@ public class MyDodo extends Dodo
         turnLeft();
         return totalEggs;
     }
+    
+    public int mostEggsInRow(){
+        goToLocation(0,0);
+        boolean end = false;
+        int mostEggs = 0;
+        int rowEggs = 0;
+        int row = 0;
+        int mostEggsRow = 0;
+        while (end==false) {
+            row++;
+            rowEggs = countEggsInRow();
+            if (rowEggs >= mostEggs) {
+                mostEggs = rowEggs;
+                mostEggsRow = row;
+            }
+            goBackToStartOfRowAndFaceBack();
+            turnRight();
+            if (borderAhead()) {
+                end = true;
+                break;
+            }
+            move();
+            turnLeft();
+        }
+        turnLeft();
+        return mostEggsRow;
+    }
 }
