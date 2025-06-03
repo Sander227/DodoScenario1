@@ -409,4 +409,35 @@ public class MyDodo extends Dodo
         goBackToStartOfRowAndFaceBack();
         return totalEggs;
     } 
+    
+    public void layTrailOfEggs(int n) {
+    if (n <= 0) {
+        System.out.println("Fout: aantal eieren moet groter zijn dan 0.");
+        return;
+    }
+    for (int i = 0; i < n - 1; i++) {
+        layEgg();
+        move();  
+    }
+    layEgg();
+    }
+    
+    public int totalEggsInWorld(){
+        goToLocation(0,0);
+        boolean end = false;
+        int totalEggs = 0;
+        while (end==false) {
+            totalEggs = totalEggs + countEggsInRow();
+            goBackToStartOfRowAndFaceBack();
+            turnRight();
+            if (borderAhead()) {
+                end = true;
+                break;
+            }
+            move();
+            turnLeft();
+        }
+        turnLeft();
+        return totalEggs;
+    }
 }
