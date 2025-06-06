@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class MyDodo extends Dodo
 {
     private int myNrOfEggsHatched;
-    
+
     public MyDodo() {
         super( EAST );
         myNrOfEggsHatched = 0;
@@ -42,7 +42,7 @@ public class MyDodo extends Dodo
             move();
             turnRight();
             while(!fence){
-                  if (fenceAhead()) {
+                if (fenceAhead()) {
                     turnLeft();
                     move();
                     turnRight();
@@ -54,7 +54,7 @@ public class MyDodo extends Dodo
             turnLeft();
         }
     }
-    
+
     /**
      * Test if Dodo can move forward, (there are no obstructions
      *    or end of world in the cell in front of her).
@@ -90,7 +90,7 @@ public class MyDodo extends Dodo
             showError( "There was no egg in this cell" );
         }
     }
-    
+
     /**
      * Returns the number of eggs Dodo has hatched so far.
      * 
@@ -99,7 +99,7 @@ public class MyDodo extends Dodo
     public int getNrOfEggsHatched() {
         return myNrOfEggsHatched;
     }
-    
+
     /**
      * Move given number of cells forward in the current direction.
      * 
@@ -116,7 +116,7 @@ public class MyDodo extends Dodo
         }
         return "You have moves " +nrStepsTaken+ " spaces";
     }
-    
+
     /**
      * Walks to edge of the world printing the coordinates at each step
      * 
@@ -151,17 +151,17 @@ public class MyDodo extends Dodo
 
     public boolean canLayEgg( ){
         if( onEgg() ){
-             return false;
+            return false;
         }else{
             return true;
         }
     }  
-    
+
     public void turn180() {
         turnRight(); 
         turnRight();
     }
-    
+
     public boolean grainAhead(){
         boolean grain = false;
         move();
@@ -169,7 +169,7 @@ public class MyDodo extends Dodo
         stepOneCellBackwards();
         return isGrain;
     }
-    
+
     public void goToEgg(){
         boolean eggFound = false;
         while (!eggFound){
@@ -181,7 +181,7 @@ public class MyDodo extends Dodo
             }
         }
     }
-    
+
     public void goBackToStartOfRowAndFaceBack(){
         turn180();
         while( ! borderAhead() && canMove() ){
@@ -189,7 +189,7 @@ public class MyDodo extends Dodo
         }
         turn180();
     }
-    
+
     public void walkToWorldEdgeClimbingOverFences(){
         while( ! borderAhead() ){
             if (fenceAhead()) {
@@ -202,7 +202,7 @@ public class MyDodo extends Dodo
             }
         }
     }
-    
+
     public void pickUpGrainsAndPrintCoordinates(){
         for(int i = 0; i<15; i++){
             System.out.println();
@@ -219,52 +219,52 @@ public class MyDodo extends Dodo
             }
         }
     }
-    
+
     public void stepOneCellBackwards() {
         turn180();
         move();
         turn180();
     }
-    
+
     public void ifTheNestIsEmptyLayAnEgg(){
         while (! borderAhead()) {
             move();
             if (onNest() && !onEgg()){
-            layEgg();
-        } 
+                layEgg();
+            } 
         }
     }
-    
+
     public void walkAroundFencedArea(){
         while (!onEgg()) {
             turnRight();
             if (fenceAhead()) {
+                turnLeft();
+                if (fenceAhead()) {
                     turnLeft();
-                    if (fenceAhead()) {
-                        turnLeft();
-                    }
-                    move();
                 }
-                else {
-                    move();
+                move();
+            }
+            else {
+                move();
             }
         } 
     }
-    
+
     public boolean eggToRight(){
         turnRight();
         boolean ahead = eggAhead();
         turnLeft();
         return ahead;
     }
-    
+
     public boolean eggToLeft(){
         turnLeft();
         boolean ahead = eggAhead();
         turnRight();
         return ahead;
     }
-    
+
     public void locateNest(){
         if (!nestAhead()) {
             turnLeft();
@@ -279,7 +279,7 @@ public class MyDodo extends Dodo
             turnLeft();
         }
     }
-    
+
     public void eggTrailToNest(){
         while (!onNest()) {
             if (eggAhead()){
@@ -301,7 +301,7 @@ public class MyDodo extends Dodo
             }
         }
     }
-    
+
     public boolean fenceRight() {
         boolean x;
         turnRight();
@@ -309,7 +309,7 @@ public class MyDodo extends Dodo
         turnLeft();
         return x;
     }
-    
+
     public boolean fenceLeft() {
         boolean x;
         turnLeft();
@@ -317,7 +317,7 @@ public class MyDodo extends Dodo
         turnRight();
         return x;
     }
-    
+
     public void simpleMaze(){
         while (!onNest()){
             if (!fenceRight()){
@@ -333,31 +333,31 @@ public class MyDodo extends Dodo
             }
         }
     }
-    
+
     public void faceNorth(){
         while (getDirection() != NORTH) {
             turnRight();
         }
     }
-    
+
     public void faceEast(){
         while (getDirection() != EAST) {
             turnRight();
         }
     }
-    
+
     public void faceSouth(){
         while (getDirection() != SOUTH) {
             turnRight();
         }
     }
-    
+
     public void faceWest(){
         while (getDirection() != WEST) {
             turnRight();
         }
     }
-    
+
     public void goToLocation(int coordX, int coordY){
         if (validCoordinates(coordX, coordY)) {
             while (!locationReached(coordX, coordY)) {
@@ -378,14 +378,14 @@ public class MyDodo extends Dodo
             }
         }
     }
-    
+
     public boolean locationReached(int x, int y){
         if (getX() == x && getY() == y) {
             return true;
         }
         return false;
     }
-    
+
     public boolean validCoordinates(int x, int y){
         if (x > getWorld().getWidth()-1 || y > getWorld().getHeight()-1) {
             showError ("Invalid coordinates");
@@ -394,7 +394,7 @@ public class MyDodo extends Dodo
             return true;
         }
     }
-    
+
     public int countEggsInRow() {
         int totalEggs = 0;
         while (! borderAhead()) {
@@ -404,24 +404,24 @@ public class MyDodo extends Dodo
             move();
         }
         if (onEgg()) {
-                totalEggs++;
-            }
+            totalEggs++;
+        }
         goBackToStartOfRowAndFaceBack();
         return totalEggs;
     } 
-    
+
     public void layTrailOfEggs(int n) {
-    if (n <= 0) {
-        System.out.println("Fout: aantal eieren moet groter zijn dan 0.");
-        return;
+        if (n <= 0) {
+            System.out.println("Fout: aantal eieren moet groter zijn dan 0.");
+            return;
+        }
+        for (int i = 0; i < n; i++) {
+            layEgg();
+            move();  
+        }
+        //layEgg();
     }
-    for (int i = 0; i < n - 1; i++) {
-        layEgg();
-        move();  
-    }
-    layEgg();
-    }
-    
+
     public int totalEggsInWorld(){
         goToLocation(0,0);
         boolean end = false;
@@ -440,7 +440,7 @@ public class MyDodo extends Dodo
         turnLeft();
         return totalEggs;
     }
-    
+
     public int mostEggsInRow(){
         goToLocation(0,0);
         boolean end = false;
@@ -467,36 +467,36 @@ public class MyDodo extends Dodo
         turnLeft();
         return mostEggsRow;
     }
-    
+
     public void monumentOfEggs() {
         int row = 0;
         boolean done = false;
         while (!done) {
-         if (!validCoordinates(0, row)) {
-         done = true;
+            if (!validCoordinates(0, row)) {
+                done = true;
                 break;
             }
             goToLocation(0, row);
             faceEast();
             int column = 0;
-        while (true) {
-            if (!validCoordinates(column, row)) {
-                break;
-            }
-            if (column <= row) {
-                if (canLayEgg()) {
-                    layEgg();
+            while (true) {
+                if (!validCoordinates(column, row)) {
+                    break;
+                }
+                if (column <= row) {
+                    if (canLayEgg()) {
+                        layEgg();
+                    }
+                }
+                if (!borderAhead()) {
+                    move();
+                    column++;
+                } else {
+                    break;
                 }
             }
-            if (!borderAhead()) {
-                move();
-                column++;
-            } else {
-                break;
-            }
+            row++;
         }
-        row++;
-    }
     }
 
     public void monumentOfEggs2() {
@@ -524,5 +524,25 @@ public class MyDodo extends Dodo
         }
     }
 
+    public void stablePyramidOfEggs() {
+        int stappenNaarLinks = 2;
+        int eierenLeggen = 1;
+        for (int i = 0; i < getWorld().getHeight() - getY() +1; i++) {
+            layTrailOfEggs(eierenLeggen);
+            eierenLeggen += 2;
+            for (int w = 0; w < stappenNaarLinks; w++){
+                if (getX() != 0) {
+                    stepOneCellBackwards();
+                }
+                else {
+                    return;
+                }
+            }
+            stappenNaarLinks += 2;
+            faceSouth();
+            move();
+            faceEast();
+        }
     }
+}
 
