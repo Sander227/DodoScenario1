@@ -32,6 +32,9 @@ public class MyDodo extends Dodo
         }
     }
 
+    /**
+     * climbs over the fence when there is a fence ahead
+     */
     public void climbOverFence() {
         boolean fence = false;
         if (fenceAhead()) {
@@ -157,11 +160,17 @@ public class MyDodo extends Dodo
         }
     }  
 
+    /**
+     * Turns to the opposite side of where dodo is facing
+     */
     public void turn180() {
         turnRight(); 
         turnRight();
     }
 
+    /**
+     * Checks if there is a grain ahead
+     */
     public boolean grainAhead(){
         boolean grain = false;
         move();
@@ -170,6 +179,9 @@ public class MyDodo extends Dodo
         return isGrain;
     }
 
+    /**
+     * Goes to the first egg he encounters in his row
+     */
     public void goToEgg(){
         boolean eggFound = false;
         while (!eggFound){
@@ -182,6 +194,9 @@ public class MyDodo extends Dodo
         }
     }
 
+    /**
+     * Goes to the start of the row and faces the opposite direction
+     */
     public void goBackToStartOfRowAndFaceBack(){
         turn180();
         while( ! borderAhead() && canMove() ){
@@ -190,6 +205,9 @@ public class MyDodo extends Dodo
         turn180();
     }
 
+    /**
+     * Walks to the world edge and when he sees a fence he climbs over it and goes on
+     */
     public void walkToWorldEdgeClimbingOverFences(){
         while( ! borderAhead() ){
             if (fenceAhead()) {
@@ -203,6 +221,9 @@ public class MyDodo extends Dodo
         }
     }
 
+    /**
+     * Pick up grains in the row and prints the coordinates of each grain
+     */
     public void pickUpGrainsAndPrintCoordinates(){
         for(int i = 0; i<15; i++){
             System.out.println();
@@ -220,12 +241,18 @@ public class MyDodo extends Dodo
         }
     }
 
+    /**
+     * Steps one cell backwards
+     */
     public void stepOneCellBackwards() {
         turn180();
         move();
         turn180();
     }
 
+    /**
+     * Goes to the world edge and when a comes across a nest he lays an egg in it
+     */
     public void ifTheNestIsEmptyLayAnEgg(){
         while (! borderAhead()) {
             move();
@@ -235,6 +262,9 @@ public class MyDodo extends Dodo
         }
     }
 
+    /**
+     * Walks around an area of fences
+     */
     public void walkAroundFencedArea(){
         while (!onEgg()) {
             turnRight();
@@ -251,6 +281,9 @@ public class MyDodo extends Dodo
         } 
     }
 
+    /**
+     * Checks if there is an egg to his right
+     */
     public boolean eggToRight(){
         turnRight();
         boolean ahead = eggAhead();
@@ -258,6 +291,9 @@ public class MyDodo extends Dodo
         return ahead;
     }
 
+    /**
+     * Checks if there is an egg to his left
+     */
     public boolean eggToLeft(){
         turnLeft();
         boolean ahead = eggAhead();
@@ -265,6 +301,9 @@ public class MyDodo extends Dodo
         return ahead;
     }
 
+    /**
+     * Locates where the nest is and turns towards the nest
+     */
     public void locateNest(){
         if (!nestAhead()) {
             turnLeft();
@@ -280,6 +319,9 @@ public class MyDodo extends Dodo
         }
     }
 
+    /**
+     * Lays a trail of eggs until he reaches the nest
+     */
     public void eggTrailToNest(){
         while (!onNest()) {
             if (eggAhead()){
@@ -299,9 +341,15 @@ public class MyDodo extends Dodo
             } else {
                 break;
             }
+            if(onEgg()){
+                pickUpEgg();
+            }
         }
     }
 
+    /**
+     * Checks if there is a fence to his right
+     */
     public boolean fenceRight() {
         boolean x;
         turnRight();
@@ -310,6 +358,9 @@ public class MyDodo extends Dodo
         return x;
     }
 
+    /**
+     * Checks if there is a fence to his left
+     */
     public boolean fenceLeft() {
         boolean x;
         turnLeft();
@@ -331,6 +382,18 @@ public class MyDodo extends Dodo
             } else {
                 turn180();
             }
+        }
+    }
+
+    /**
+     * Faces in the direction that is given
+     */
+    public void faceDirection(int direction){
+        if (direction < NORTH || direction > WEST){
+            return;
+        }
+        while (getDirection() != direction) {
+            turnRight();
         }
     }
 
@@ -419,7 +482,6 @@ public class MyDodo extends Dodo
             layEgg();
             move();  
         }
-        //layEgg();
     }
 
     public int totalEggsInWorld(){
@@ -442,12 +504,14 @@ public class MyDodo extends Dodo
     }
 
     public int mostEggsInRow(){
-        goToLocation(0,0);
         boolean end = false;
         int mostEggs = 0;
         int rowEggs = 0;
         int row = 0;
         int mostEggsRow = 0;
+        int startX = getX();
+        int startY = getY();
+        goToLocation(0,0);
         while (end==false) {
             row++;
             rowEggs = countEggsInRow();
@@ -464,6 +528,7 @@ public class MyDodo extends Dodo
             move();
             turnLeft();
         }
+        goToLocation(startX,startY);
         turnLeft();
         return mostEggsRow;
     }
@@ -524,25 +589,29 @@ public class MyDodo extends Dodo
         }
     }
 
-    public void stablePyramidOfEggs() {
+    public void stablePyramidOfEggs2() {
         int stappenNaarLinks = 2;
         int eierenLeggen = 1;
-        for (int i = 0; i < getWorld().getHeight() - getY() +1; i++) {
+        while (getY() < getWorld().getHeight() - 1) {
             layTrailOfEggs(eierenLeggen);
             eierenLeggen += 2;
-            for (int w = 0; w < stappenNaarLinks; w++){
+            for (int w = 0; w < stappenNaarLinks; w++) {
                 if (getX() != 0) {
                     stepOneCellBackwards();
-                }
-                else {
+                } else {
                     return;
                 }
             }
             stappenNaarLinks += 2;
             faceSouth();
-            move();
+            if (canMove()) {
+                move();
+            } else {
+                return;
+            }
             faceEast();
         }
+        layTrailOfEggs(eierenLeggen);
     }
 }
 
