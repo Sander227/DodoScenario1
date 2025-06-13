@@ -589,7 +589,7 @@ public class MyDodo extends Dodo
         }
     }
 
-    public void stablePyramidOfEggs2() {
+    public void stablePyramidOfEggs() {
         int stappenNaarLinks = 2;
         int eierenLeggen = 1;
         while (getY() < getWorld().getHeight() - 1) {
@@ -612,6 +612,32 @@ public class MyDodo extends Dodo
             faceEast();
         }
         layTrailOfEggs(eierenLeggen);
+    }
+    
+    public double averageEggsInWorld(){
+        boolean end = false;
+        double averageEggs = 0.0;
+        int eggsInWorld = 0;
+        int rowCount = 1;
+        int beginX = getX();
+        int beginY = getY();
+        goToLocation(0,0);
+        while (end==false) {
+            eggsInWorld = eggsInWorld + countEggsInRow();
+            goBackToStartOfRowAndFaceBack();
+            turnRight();
+            if (borderAhead()) {
+                end = true;
+                break;
+            }
+            move();
+            rowCount++;
+            turnLeft();
+        }
+        turnLeft();
+        averageEggs = (double)eggsInWorld / rowCount;
+        goToLocation(beginX,beginY);
+        return averageEggs;
     }
 }
 
