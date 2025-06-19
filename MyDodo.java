@@ -698,4 +698,19 @@ public class MyDodo extends Dodo
             showError("There are no broken parts");
         }
     }
+
+    public void faceRight() {
+        int x = getX();
+        int y = getY();
+        move();
+        if (x < getX()) {
+            turn180();
+        }
+        else if (y < getY()){
+            turnRight();
+        } 
+        else if (y > getY()) {
+            turnLeft();
+        }
+    }
 }
