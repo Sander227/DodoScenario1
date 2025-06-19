@@ -703,13 +703,13 @@ public class MyDodo extends Dodo
         int x = getX();
         int y = getY();
         move();
-        if (x < getX()) {
+        if (x > getX()) {
             turn180();
         }
-        else if (y < getY()){
+        else if (y > getY()){
             turnRight();
         } 
-        else if (y > getY()) {
+        else if (y < getY()) {
             turnLeft();
         }
     }
