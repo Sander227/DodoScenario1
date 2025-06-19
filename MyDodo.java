@@ -440,6 +440,9 @@ public class MyDodo extends Dodo
                 faceEast();
             }
         }
+        else {
+            showError("Invalid coordinates");
+        }
     }
 
     public boolean locationReached(int x, int y){
@@ -450,8 +453,7 @@ public class MyDodo extends Dodo
     }
 
     public boolean validCoordinates(int x, int y){
-        if (x > getWorld().getWidth()-1 || y > getWorld().getHeight()-1) {
-            showError ("Invalid coordinates");
+        if (x > getWorld().getWidth()-1 || y > getWorld().getHeight()-1 || x < 0 || y < 0) {
             return false;
         } else {
             return true;
@@ -480,7 +482,7 @@ public class MyDodo extends Dodo
         turnLeft();
         return eggs;
     }
-    
+
     /**
      * Return -1 betekent dat als alles even is en dat er geen ei bij hoeft in de rij
      * 
@@ -488,7 +490,7 @@ public class MyDodo extends Dodo
      */
     public int findUnevenRow() {
         int worldHeight = getWorld().getHeight();
-        
+
         for (int i = 0; i < worldHeight; i++) {
             goToLocation(0,i);
             int eggs = countEggsInRow();
@@ -498,10 +500,10 @@ public class MyDodo extends Dodo
         }
         return -1;
     }
-    
+
     public int findUnevenColumn() {
         int worldWidth = getWorld().getWidth();
-        
+
         for (int i = 0; i < worldWidth; i++) {
             goToLocation(i,0);
             int eggs = countEggsInColumn();
@@ -682,11 +684,18 @@ public class MyDodo extends Dodo
     public void fixBrokenPart() {
         int x = findUnevenColumn();
         int y = findUnevenRow();
-        goToLocation(x,y);
-        if (onEgg()) {
-            pickUpEgg();
-        } else {
-            layEgg();
+
+        if (validCoordinates(x,y)) {
+
+            goToLocation(x,y);
+
+            if (onEgg()) {
+                pickUpEgg();
+            } else {
+                layEgg();
+            }
+        } else{
+            showError("There are no broken parts");
         }
     }
 }
