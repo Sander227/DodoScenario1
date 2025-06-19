@@ -460,6 +460,7 @@ public class MyDodo extends Dodo
 
     public int countEggsInRow() {
         int totalEggs = 0;
+        goBackToStartOfRowAndFaceBack();
         while (! borderAhead()) {
             if (onEgg()) {
                 totalEggs++;
@@ -471,7 +472,45 @@ public class MyDodo extends Dodo
         }
         goBackToStartOfRowAndFaceBack();
         return totalEggs;
-    } 
+    }
+
+    public int countEggsInColumn() {
+        turnRight();
+        int eggs = countEggsInRow();
+        turnLeft();
+        return eggs;
+    }
+    
+    /**
+     * Return -1 betekent dat als alles even is en dat er geen ei bij hoeft in de rij
+     * 
+     * @return int
+     */
+    public int findUnevenRow() {
+        int worldHeight = getWorld().getHeight();
+        
+        for (int i = 0; i < worldHeight; i++) {
+            goToLocation(0,i);
+            int eggs = countEggsInRow();
+            if (eggs % 2 != 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    public int findUnevenColumn() {
+        int worldWidth = getWorld().getWidth();
+        
+        for (int i = 0; i < worldWidth; i++) {
+            goToLocation(i,0);
+            int eggs = countEggsInColumn();
+            if (eggs % 2 != 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public void layTrailOfEggs(int n) {
         if (n <= 0) {
@@ -613,7 +652,7 @@ public class MyDodo extends Dodo
         }
         layTrailOfEggs(eierenLeggen);
     }
-    
+
     public double averageEggsInWorld(){
         boolean end = false;
         double averageEggs = 0.0;
@@ -639,5 +678,15 @@ public class MyDodo extends Dodo
         goToLocation(beginX,beginY);
         return averageEggs;
     }
-}
 
+    public void fixBrokenPart() {
+        int x = findUnevenColumn();
+        int y = findUnevenRow();
+        goToLocation(x,y);
+        if (onEgg()) {
+            pickUpEgg();
+        } else {
+            layEgg();
+        }
+    }
+}
