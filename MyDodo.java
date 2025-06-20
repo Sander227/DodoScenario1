@@ -503,12 +503,14 @@ public class MyDodo extends Dodo
 
     public int findUnevenColumn() {
         int worldWidth = getWorld().getWidth();
-
+        goToTopLeft();
         for (int i = 0; i < worldWidth; i++) {
-            goToLocation(i,0);
             int eggs = countEggsInColumn();
             if (eggs % 2 != 0) {
                 return i;
+            }
+            if (!borderAhead()) {
+                move();
             }
         }
         return -1;
@@ -712,5 +714,13 @@ public class MyDodo extends Dodo
         else if (y < getY()) {
             turnLeft();
         }
+    }
+    
+    public void goToTopLeft() {
+        faceRight();
+        goBackToStartOfRowAndFaceBack();
+        turnRight();
+        goBackToStartOfRowAndFaceBack();
+        turnLeft();
     }
 }
