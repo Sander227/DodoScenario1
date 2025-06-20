@@ -420,25 +420,20 @@ public class MyDodo extends Dodo
             turnRight();
         }
     }
-
+    /**
+     * 
+     */
     public void goToLocation(int coordX, int coordY){
         if (validCoordinates(coordX, coordY)) {
-            while (!locationReached(coordX, coordY)) {
-                if (getX() < coordX) {
-                    faceEast();
-                    move();
-                } else if (getX() > coordX) {
-                    faceWest();
-                    move();
-                } if (getY() < coordY) {
-                    faceSouth();
-                    move();
-                } else if (getY() > coordY) {
-                    faceNorth();
-                    move();
-                }
-                faceEast();
+            goToTopLeft();
+            while (coordX != getX()){
+                move();
             }
+            turnRight();
+            while (coordY != getY()){
+                move();
+            }
+            turnLeft();
         }
         else {
             showError("Invalid coordinates");
@@ -708,6 +703,9 @@ public class MyDodo extends Dodo
     public void faceRight() {
         int x = getX();
         int y = getY();
+        if (borderAhead()){
+            turn180();
+        }
         move();
         if (x > getX()) {
             turn180();
@@ -727,4 +725,5 @@ public class MyDodo extends Dodo
         goBackToStartOfRowAndFaceBack();
         turnLeft();
     }
+    
 }
