@@ -490,13 +490,17 @@ public class MyDodo extends Dodo
      */
     public int findUnevenRow() {
         int worldHeight = getWorld().getHeight();
-
+        goToTopLeft();
         for (int i = 0; i < worldHeight; i++) {
-            goToLocation(0,i);
             int eggs = countEggsInRow();
             if (eggs % 2 != 0) {
                 return i;
             }
+            turnRight();
+            if(!borderAhead()){
+               move(); 
+            }
+            turnLeft();
         }
         return -1;
     }
